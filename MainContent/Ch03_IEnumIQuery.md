@@ -2,7 +2,7 @@
 sort: 3
 ---
 
-# C#의 IEnumerable 및 IQueryable
+# C#의 IEnumberable 및 IQueryable
 이 기사에서는 예제를 사용 하여 C#에서 IEnumerable 및 IQueryable에 대해 설명 합니다. 예제를 사용하여 LINQ 쿼리를 작성 하는 다양한 방법에 대해 논의한 이전 기사를 읽어보십시오 . 이 기사에서는 다음 개념에 대해 자세히 설명합니다.
 
 1. C#에서 IEnumerable이란 무엇입니까?
