@@ -2,7 +2,7 @@
 sort: 8
 ---
 
-# LINQ 연산자 : 집합 관련
+# LINQ 연산자 : 집합 관련(Distinct, Except, Intersect, Union, Concat)
 
 LINQ의 집합 연산자는 동일하거나 다른 데이터 원본 내 요소의 존재 여부에 따라 결과 집합 데이터를 생성하는 데 사용됩니다. 즉, 이러한 작업은 단일 데이터 원본 또는 여러 데이터 원본에서 수행되며 출력에는 일부 데이터가 있고 일부 데이터가 없습니다. 이것이 현재 명확하지 않은 경우 걱정하지 마십시오. 우리는 예제와 함께 모든 것을 논의할 것입니다.
 
@@ -996,4 +996,912 @@ LINQ의 집합 연산자는 동일하거나 다른 데이터 원본 내 요소�
     ```
 
     이제 응용 프로그램을 실행하면 예상대로 출력이 표시되어야 합니다.
+
+
+## <font color='dodgerblue' size="6">3) Intersect : 교집합</font>
+
+1. LINQ Intersect 무엇입니까?
+2. 메서드 또는 쿼리 구문을 모두 사용하는 C# Intersect 메쏘드 사용 예
+3. C#에서 Intersect 연산에 익명 유형 사용
+4. 비교인터페이스(IEqualityComparer) 구현
+
+- ### A. LINQ Intersect 무엇입니까?
+    C# 의 LINQ Intersect 메서드는 두 컬렉션의 공통 요소를 반환하는 데 사용됩니다. 두 데이터 소스에 모두 있는 요소입니다. 아래와 같이 LINQ Intersect 메서드에 사용할 수 있는 두 가지 오버로드된 버전이 있습니다.
+
+    ![08_17_Intersect.png](image/08/08_17_Intersect.png)  
+
+    위의 두 LINQ Intersect 메서드 간의 유일한 차이점은 두 번째 오버로드된 버전이 IEqualityComparer 를 인수로 사용한다는 것입니다. 이는 Intersect 메서드가 Comparer에도 사용됨을 의미합니다.
+
+    예를 들어 이것을 이해합시다.
+
+    ![08_18_IntersectDesc.png](image/08/08_18_IntersectDesc.png)  
+
+    위 이미지에서 볼 수 있듯이 여기에는 두 개의 정수 데이터 소스, 즉 DataSource 1과 Data Source 2가 있습니다. DataSource 1에는 1, 2, 3, 4, 5, 6과 같은 요소가 포함되고 DataSource 2에는 1, 3, 5, 8, 9, 10. 두 데이터 소스에 모두 존재하는 1, 3, 5와 같은 요소를 검색하려면 LINQ Intersect 메서드를 사용해야 합니다.
+
+- ### B. 메서드 또는 쿼리 구문을 모두 사용하는 C# Intersect 메쏘드 사용 예
+
+    **예제1**  
+    다음 예제에서는 두 컬렉션에 있는 공통 요소를 가져오기 위해 메서드와 쿼리 구문을 모두 사용하는 LINQ Intersect() 메서드를 사용하는 방법을 보여 줍니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<int> dataSource1 = new List<int>() { 1, 2, 3, 4, 5, 6 };
+                List<int> dataSource2 = new List<int>() { 1, 3, 5, 8, 9, 10 };
+
+                //Method Syntax
+                var MS = dataSource1.Intersect(dataSource2).ToList();
+
+                //Query Syntax
+                var QS = (from num in dataSource1
+                        select num)
+                        .Intersect(dataSource2).ToList();
+
+                foreach (var item in MS)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+
+    응용 프로그램을 실행하면 예상대로 출력이 표시됩니다.
+
+    ```note
+    쿼리 구문에는 Intersect와 같은 연산자 호출이 없으므로 여기에서 동일한 결과를 얻기 위해 쿼리 및 메서드 구문을 모두 사용하는 혼합 구문을 사용해야 합니다.
+    ```
+
+    **예제2**
+    여기에 두 개의 국가 배열이 있으며 두 컬렉션에서 공통 국가를 반환해야 합니다.
+
+    ```cs
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                string[] dataSource1 = { "India", "USA", "UK", "Canada", "Srilanka" };
+                string[] dataSource2 = { "India", "uk", "Canada", "France", "Japan" };
+
+                //Method Syntax
+                var MS = dataSource1.Intersect(dataSource2).ToList();
+
+                //Query Syntax
+                var QS = (from country in dataSource1
+                        select country)
+                        .Intersect(dataSource2).ToList();
+
+                foreach (var item in QS)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+
+    결과  
+    ![08_19_Example2Result.png](image/08/08_19_Example2Result.png)  
+
+    보시다시피 인도와 캐나다만 표시됩니다. 우리 컬렉션을 보면 두 컬렉션에 "UK"라는 국가가 있지만 Intersect 메서드가 해당 국가를 가져오지 않은 것을 볼 수 있습니다. Intersect 메서드에서 사용되는 기본 비교자는 대/소문자를 구분하지 않기 때문입니다.
+
+    따라서 대소문자 구분을 무시하려면 IEqualityComparer를 인수로 사용하는 Intersect() 메서드의 다른 오버로드된 버전을 사용해야 합니다. 따라서 StringComparer를 인수로 전달하는 아래와 같이 프로그램을 수정합니다.
+
+    ```cs
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                string[] dataSource1 = { "India", "USA", "UK", "Canada", "Srilanka" };
+                string[] dataSource2 = { "India", "uk", "Canada", "France", "Japan" };
+
+                //Method Syntax
+                var MS = dataSource1.Intersect(dataSource2, StringComparer.OrdinalIgnoreCase).ToList();
+
+                //Query Syntax
+                var QS = (from country in dataSource1
+                        select country)
+                        .Intersect(dataSource2, StringComparer.OrdinalIgnoreCase).ToList();
+
+                foreach (var item in QS)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+    결과  
+    ![08_20_Example2Result2.png](image/08/08_20_Example2Result2.png)  
+
+
+    **복합 유형의 LINQ Intersect() 메서드**  
+    다른 집합 연산자(예: Distinct, Expect)와 같은 LINQ Intersect() 메서드도 Product, Employee, Student 등과 같은 복잡한 유형으로 작업할 때 다른 방식으로 작동합니다. 예를 들어 이를 이해하겠습니다.
+
+    이름이 Student.cs 인 클래스 파일을 만들고 다음 코드를 복사하여 붙여넣습니다.
+
+    ```cs
+    namespace LINQDemo
+    {
+        public class Student
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+        }
+    }
+    ```
+
+    이것은 속성이 두 개뿐인 매우 간단한 학생 클래스입니다. 다음 두 가지 데이터 소스가 있다고 가정해 보겠습니다.
+
+    ![08_21_MoreSampleData.png](image/08/08_21_MoreSampleData.png)  
+
+    위의 이미지에서 볼 수 있듯이 두 개의 학생 데이터 컬렉션이 있습니다. 그리고 두 컬렉션에 모두 등장한 두 명의 학생이 있습니다.
+
+    **예제3**  
+    우리의 요구 사항은 두 컬렉션에 있는 모든 학생 이름을 가져오는 것입니다. 그것은 두 컬렉션에서 공통 학생의 이름입니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<Student> StudentCollection1 = new List<Student>()
+                {
+                    new Student {ID = 101, Name = "Preety" },
+                    new Student {ID = 102, Name = "Sambit" },
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},             
+                };
+
+                List<Student> StudentCollection2 = new List<Student>()
+                {
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                    new Student {ID = 107, Name = "Pranaya"},
+                    new Student {ID = 108, Name = "Santosh"},
+                };
+                
+                //Method Syntax
+                var MS = StudentCollection1.Select(x => x.Name)
+                        . Intersect(StudentCollection2.Select(y => y.Name)).ToList();
+
+                //Query Syntax
+                var QS = (from std in StudentCollection1
+                        select std.Name)
+                        . Intersect(StudentCollection2.Select(y => y.Name)).ToList();
+
+                foreach (var name in MS)
+                {
+                    Console.WriteLine(name);
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+    결과  
+    ![08_22_Example3Result.png](image/08/08_22_Example3Result.png)  
+
+    **예제4**  
+    이제 두 컬렉션에 있는 모든 학생의 모든 정보를 선택해야 합니다. 이를 위해 프로그램 클래스를 아래와 같이 수정해 보겠습니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<Student> StudentCollection1 = new List<Student>()
+                {
+                    new Student {ID = 101, Name = "Preety" },
+                    new Student {ID = 102, Name = "Sambit" },
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},             
+                };
+
+                List<Student> StudentCollection2 = new List<Student>()
+                {
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                    new Student {ID = 107, Name = "Pranaya"},
+                    new Student {ID = 108, Name = "Santosh"},
+                };
+
+                //Method Syntax
+                var MS = StudentCollection1.Intersect(StudentCollection2).ToList();
+
+                //Query Syntax
+                var QS = (from std in StudentCollection1
+                        select std).Intersect(StudentCollection2).ToList();
+
+                foreach (var student in MS)
+                {
+                    Console.WriteLine($" ID : {student.ID} Name : {student.Name}");
+                }
+                
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+
+    응용 프로그램을 실행하면 데이터가 표시되지 않습니다. 비교에 사용되는 기본 비교자는 두 개체 참조가 동일한지 여부만 확인하고 복합 개체의 개별 속성 값이 확인되지 않기 때문입니다.
+
+    위의 문제를 해결하기 위해 익명 유형을 사용하는 방법을 살펴보겠습니다.
+
+- ### C. C#에서 Intersect 연산에 익명 유형 사용
+    이 접근 방식에서는 모든 개별 속성을 익명 형식으로 선택해야 합니다. 다음 프로그램은 정확히 동일한 작업을 수행합니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<Student> StudentCollection1 = new List<Student>()
+                {
+                    new Student {ID = 101, Name = "Preety" },
+                    new Student {ID = 102, Name = "Sambit" },
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},             
+                };
+
+                List<Student> StudentCollection2 = new List<Student>()
+                {
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                    new Student {ID = 107, Name = "Pranaya"},
+                    new Student {ID = 108, Name = "Santosh"},
+                };
+
+                //Method Syntax
+                var MS = StudentCollection1.Select(x => new { x.ID, x.Name })
+                        .Intersect(StudentCollection2.Select(x => new { x.ID, x.Name })).ToList();
+
+                //Query Syntax
+                var QS = (from std in StudentCollection1
+                        select new {std.ID, std.Name })
+                        .Intersect(StudentCollection2.Select(x => new { x.ID, x.Name })).ToList();
+
+                foreach (var student in MS)
+                {
+                    Console.WriteLine($" ID : {student.ID} Name : {student.Name}");
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+    결과  
+    ![08_23_AnonyResult.png](image/08/08_23_AnonyResult.png)  
+
+- ### D. 비교인터페이스(IEqualityComparer) 구현
+    이 접근 방식에서는 클래스를 만든 다음 IEqualityComparer 인터페이스 를 구현해야 합니다 . 따라서 이름이 StudentComparer.cs 인 클래스 파일을 만들고 다음 코드를 복사하여 붙여넣습니다.
+
+    ```cs
+    using System.Collections.Generic;
+    namespace LINQDemo
+    {
+        public class StudentComparer : IEqualityComparer<Student>
+        {
+            public bool Equals(Student x, Student y)
+            {
+                return x.ID == y.ID && x.Name == y.Name;
+            }
+
+            public int GetHashCode(Student obj)
+            {
+                return obj.ID.GetHashCode() ^ obj.Name.GetHashCode();
+            }
+        }
+    }
+    ```
+
+    이제 StudentComparer 클래스의 인스턴스를 만든 다음 아래 프로그램과 같이 해당 인스턴스를 Intersect 메서드에 전달해야 합니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<Student> StudentCollection1 = new List<Student>()
+                {
+                    new Student {ID = 101, Name = "Preety" },
+                    new Student {ID = 102, Name = "Sambit" },
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},             
+                };
+
+                List<Student> StudentCollection2 = new List<Student>()
+                {
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                    new Student {ID = 107, Name = "Pranaya"},
+                    new Student {ID = 108, Name = "Santosh"},
+                };
+
+                StudentComparer studentComparer = new StudentComparer();
+
+                //Method Syntax
+                var MS = StudentCollection1
+                        .Intersect(StudentCollection2, studentComparer).ToList();
+
+                //Query Syntax
+                var QS = (from std in StudentCollection1
+                        select std)
+                        .Intersect(StudentCollection2, studentComparer).ToList();
+
+                foreach (var student in QS)
+                {
+                    Console.WriteLine($" ID : {student.ID} Name : {student.Name}");
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+
+
+## <font color='dodgerblue' size="6">4) Union : 합집합</font>
+1. C#에서 LINQ Union이란 무엇입니까?
+2. 메서드와 쿼리 구문을 모두 사용하는 C# LINQ Union 메서드의 예
+3. 복합 유형과 함께 C# Linq Union 메서드 사용.
+4. 익명 유형을 사용하는 예
+5. IEqualityComparer를 구현하는 방법은 무엇입니까?
+
+
+
+- ### A. C#에서 LINQ Union이란 무엇입니까?
+    C# 의 LINQ Union Method 는 중복 요소를 제거하여 여러 데이터 원본을 하나의 데이터 원본으로 결합하는 데 사용됩니다. 아래와 같이 LINQ Union Method에 사용할 수 있는 두 가지 오버로드된 버전이 있습니다.
+
+    ![08_24_Union.png](image/08/08_24_Union.png)  
+    
+    예를 들어 이것을 이해합시다. 다음 이미지를 살펴보십시오.
+
+    ![08_25_UnionDesc.png](image/08/08_25_UnionDesc.png)  
+
+    위 이미지에서 볼 수 있듯이 여기에는 두 개의 정수 데이터 소스, 즉 DataSource 1과 Data Source 2가 있습니다. DataSource 1에는 1, 2, 3, 4, 5, 6과 같은 요소가 포함되고 DataSource 2에는 1, 3, 5, 8, 9, 10. 중복 요소를 제거하여 두 컬렉션에서 모든 요소를 ​​검색하려면 LINQ Union 메서드를 사용해야 합니다.
+
+    **예제1**  
+    다음 예제에서는 중복 요소를 제거하여 두 컬렉션에서 모든 요소를 ​​가져오기 위해 메서드와 쿼리 구문을 모두 사용하는 LINQ Union() 메서드를 사용하는 방법을 보여 줍니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<int> dataSource1 = new List<int>() { 1, 2, 3, 4, 5, 6 };
+                List<int> dataSource2 = new List<int>() { 1, 3, 5, 8, 9, 10 };
+
+                //Method Syntax
+                var MS = dataSource1.Union(dataSource2).ToList();
+
+                //Query Syntax
+                var QS = (from num in dataSource1
+                        select num)
+                        .Union(dataSource2).ToList();
+
+                foreach (var item in MS)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+    응용 프로그램을 실행하면 예상대로 출력이 표시됩니다.
+
+    ```note
+    쿼리 구문에는 이러한 연산자 호출 Union이 없으므로 여기서는 쿼리 및 메서드 구문을 모두 사용하는 혼합 구문을 사용해야 합니다.
+    ```
+
+    **예제2**  
+    여기에 두 개의 국가 컬렉션이 있으며 중복된 국가 이름을 제거하여 두 컬렉션에서 모든 국가를 반환해야 합니다.
+
+    ```cs
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                string[] dataSource1 = { "India", "USA", "UK", "Canada", "Srilanka" };
+                string[] dataSource2 = { "India", "uk", "Canada", "France", "Japan" };
+
+                //Method Syntax
+                var MS = dataSource1.Union(dataSource2).ToList();
+
+                //Query Syntax
+                var QS = (from country in dataSource1
+                        select country)
+                        .Union(dataSource2).ToList();
+
+                foreach (var item in MS)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+
+    결과  
+    ![08_26_Example2Result.png](image/08/08_26_Example2Result.png)  
+
+    보시다시피 " UK "라는 국가가 두 번 표시됩니다. LINQ Union 메서드에서 사용되는 기본 비교자는 대/소문자를 구분하지 않기 때문입니다.
+
+    따라서 대소문자 구분을 무시하려면 IEqualityComparer 를 인수로 사용하는 다른 오버로드된 버전의 Union() 메서드를 사용해야 합니다. 따라서 StringComparer 를 인수로 전달하는 아래와 같이 프로그램을 수정합니다 .
+
+    ```cs
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                string[] dataSource1 = { "India", "USA", "UK", "Canada", "Srilanka" };
+                string[] dataSource2 = { "India", "uk", "Canada", "France", "Japan" };
+
+                //Method Syntax
+                var MS = dataSource1.Union(dataSource2, StringComparer.OrdinalIgnoreCase).ToList();
+
+                //Query Syntax
+                var QS = (from country in dataSource1
+                        select country)
+                        .Union(dataSource2, StringComparer.OrdinalIgnoreCase).ToList();
+
+                foreach (var item in MS)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+    결과  
+    ![08_27_Example2Result2.png](image/08/08_27_Example2Result2.png)  
+
+    **복합 유형의 C# LINQ Union() 메서드**  
+    Distinct, Expect, Intersect와 같은 다른 집합 연산자와 같은 LINQ Union() 메서드도 Product, Employee, Student 등과 같은 복잡한 유형으로 작업할 때 다른 방식으로 작동합니다. 예를 들어 이것을 이해합시다.
+
+    이름이 Student.cs 인 클래스 파일을 만들고 다음 코드를 복사하여 붙여넣습니다.
+
+    ```cs
+    namespace LINQDemo
+    {
+        public class Student
+        {
+            public int ID { get; set; }
+            public string Name { get; set; }
+        }
+    }
+    ```
+
+    위의 학생 클래스는 두 개의 속성으로만 생성됩니다. 다음 두 가지 데이터 소스가 있다고 가정해 보겠습니다.
+
+    ![08_28_UnionSampleData.png](image/08/08_28_UnionSampleData.png)  
+    
+    위의 이미지에서 볼 수 있듯이 두 개의 학생 데이터 컬렉션이 있습니다. 그리고 두 컬렉션에 모두 등장한 두 명의 학생이 있습니다.
+
+    **예제3**  
+    우리의 요구 사항은 중복 이름을 제거하여 두 컬렉션에서 모든 학생 이름을 가져오는 것입니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<Student> StudentCollection1 = new List<Student>()
+                {
+                    new Student {ID = 101, Name = "Preety" },
+                    new Student {ID = 102, Name = "Sambit" },
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                };
+
+                List<Student> StudentCollection2 = new List<Student>()
+                {
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                    new Student {ID = 107, Name = "Pranaya"},
+                    new Student {ID = 108, Name = "Santosh"},
+                };
+
+                //Method Syntax
+                var MS = StudentCollection1.Select(x => x.Name)
+                        .Union(StudentCollection2.Select(y => y.Name)).ToList();
+
+                //Query Syntax
+                var QS = (from std in StudentCollection1
+                        select std.Name)
+                        .Union(StudentCollection2.Select(y => y.Name)).ToList();
+
+                foreach (var name in MS)
+                {
+                    Console.WriteLine(name);
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+
+    결과  
+    ![08_29_UnionExam3Result.png](image/08/08_29_UnionExam3Result.png)  
+
+    **예제4**  
+    이제 중복된 학생을 제거하여 두 컬렉션에서 모든 학생의 모든 정보를 선택해야 합니다. 이를 위해 프로그램 클래스를 아래와 같이 수정해 보겠습니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<Student> StudentCollection1 = new List<Student>()
+                {
+                    new Student {ID = 101, Name = "Preety" },
+                    new Student {ID = 102, Name = "Sambit" },
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                };
+
+                List<Student> StudentCollection2 = new List<Student>()
+                {
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                    new Student {ID = 107, Name = "Pranaya"},
+                    new Student {ID = 108, Name = "Santosh"},
+                };
+
+                //Method Syntax
+                var MS = StudentCollection1.Union(StudentCollection2).ToList();
+
+                //Query Syntax
+                var QS = (from std in StudentCollection1
+                        select std).Union(StudentCollection2).ToList();
+
+                foreach (var student in MS)
+                {
+                    Console.WriteLine($" ID : {student.ID} Name : {student.Name}");
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+    응용 프로그램을 실행하면 중복 학생을 제거하지 않고 모든 학생이 표시되는 것을 볼 수 있습니다. 비교에 사용되는 기본 비교자는 두 개체 참조가 동일한지 여부만 확인하고 복합 개체의 개별 속성 값이 확인되지 않기 때문입니다. 위의 문제를 해결하기 위해 익명 유형을 사용하는 방법을 살펴보겠습니다.
+
+
+- ### D. 익명 유형을 사용하는 예
+    이 접근 방식에서는 모든 개별 속성을 익명 형식으로 선택해야 합니다. 다음 프로그램은 정확히 동일한 작업을 수행합니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<Student> StudentCollection1 = new List<Student>()
+                {
+                    new Student {ID = 101, Name = "Preety" },
+                    new Student {ID = 102, Name = "Sambit" },
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                };
+
+                List<Student> StudentCollection2 = new List<Student>()
+                {
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                    new Student {ID = 107, Name = "Pranaya"},
+                    new Student {ID = 108, Name = "Santosh"},
+                };
+
+                //Method Syntax
+                var MS = StudentCollection1.Select(x => new { x.ID, x.Name })
+                        .Union(StudentCollection2.Select(x => new { x.ID, x.Name })).ToList();
+
+                //Query Syntax
+                var QS = (from std in StudentCollection1
+                        select new { std.ID, std.Name })
+                        .Union(StudentCollection2.Select(x => new { x.ID, x.Name })).ToList();
+                
+                foreach (var student in MS)
+                {
+                    Console.WriteLine($" ID : {student.ID} Name : {student.Name}");
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+
+    결과  
+    ![08_30_UnionAnonyResult.png](image/08/08_30_UnionAnonyResult.png)  
+
+- ### E. IEqualityComparer를 구현하는 방법은 무엇입니까?
+    이 접근 방식에서는 클래스를 만든 다음 IEqualityComparer 인터페이스 를 구현해야 합니다 . 따라서 이름이 StudentComparer.cs 인 클래스 파일을 만들고 다음 코드를 복사하여 붙여넣습니다.
+
+    ```cs
+    using System.Collections.Generic;
+    namespace LINQDemo
+    {
+        public class StudentComparer : IEqualityComparer<Student>
+        {
+            public bool Equals(Student x, Student y)
+            {
+                return x.ID == y.ID && x.Name == y.Name;
+            }
+
+            public int GetHashCode(Student obj)
+            {
+                return obj.ID.GetHashCode() ^ obj.Name.GetHashCode();
+            }
+        }
+    }
+    ```
+    이제 StudentComparer 클래스의 인스턴스를 만든 다음 아래 프로그램과 같이 해당 인스턴스를 LINQ Union 메서드에 전달해야 합니다.
+
+    ```cs
+    using System.Collections.Generic;
+    using System;
+    using System.Linq;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<Student> StudentCollection1 = new List<Student>()
+                {
+                    new Student {ID = 101, Name = "Preety" },
+                    new Student {ID = 102, Name = "Sambit" },
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                };
+
+                List<Student> StudentCollection2 = new List<Student>()
+                {
+                    new Student {ID = 105, Name = "Hina"},
+                    new Student {ID = 106, Name = "Anurag"},
+                    new Student {ID = 107, Name = "Pranaya"},
+                    new Student {ID = 108, Name = "Santosh"},
+                };
+
+                StudentComparer studentComparer = new StudentComparer();
+
+                //Method Syntax
+                var MS = StudentCollection1
+                        .Union(StudentCollection2, studentComparer).ToList();
+
+                //Query Syntax
+                var QS = (from std in StudentCollection1
+                        select std)
+                        .Union(StudentCollection2, studentComparer).ToList();
+
+                foreach (var student in MS)
+                {
+                    Console.WriteLine($" ID : {student.ID} Name : {student.Name}");
+                }
+
+                Console.ReadKey();
+            }
+        }
+    }
+    ```
+
+## <font color='dodgerblue' size="6">5) Concat</font>
+1. Linq의 Concat 메서드는 무엇입니까?
+2. 왜 Concat 메서드를 사용해야 합니까?
+3. 쿼리 및 메서드 구문을 모두 사용하는 예.
+4. Linq에서 Concat과 공용체 연산자의 차이점은 무엇입니까? 
+
+- ### A. Linq의 Concat 메서드는 무엇입니까?
+    C# 의 Linq Concat 메서드는 두 시퀀스를 하나의 시퀀스로 연결하는 데 사용됩니다. 아래에 서명이 있는 이 메서드에 사용할 수 있는 버전은 하나만 있습니다.
+
+    ![08_31_Concat.png](image/08/08_31_Concat.png)   
+
+    **예제1**  
+    다음 예제에서는 두 개의 정수 시퀀스를 만든 다음 Concat 연산자를 사용하여 두 시퀀스를 하나의 시퀀스로 연결합니다.
+
+    ```cs
+    using System.Linq;
+    using System;
+    using System.Collections.Generic;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<int> sequence1 = new List<int> { 1, 2, 3, 4 };
+                List<int> sequence2 = new List<int> { 2, 4, 6, 8 };
+
+                var result = sequence1.Concat(sequence2);
+
+                foreach (var item in result)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadLine();
+            }
+        }
+    }
+    ```    
+    결과  
+    ![08_32_ConcatExam1Result.png](image/08/08_32_ConcatExam1Result.png)   
+
+    위의 출력에서 ​​확인하면 중복 요소가 제거되지 않은 것을 볼 수 있습니다. 이제 Union 연산자를 사용하여 위의 두 시퀀스를 연결하고 무슨 일이 일어났는지 관찰해 보겠습니다.
+
+    **Union 연산자를 사용하여 연결:**  
+    아래 예제에서는 Linq Union 연산자를 사용하여 두 개의 정수 시퀀스를 하나의 시퀀스로 연결합니다.
+
+    ```cs
+    using System.Linq;
+    using System;
+    using System.Collections.Generic;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<int> sequence1 = new List<int> { 1, 2, 3, 4 };
+                List<int> sequence2 = new List<int> { 2, 4, 6, 8 };
+
+                var result = sequence1.Union(sequence2);
+
+                foreach (var item in result)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadLine();
+            }
+        }
+    }
+    ```
+    결과  
+    ![08_33_UnionExamResult.png](image/08/08_33_UnionExamResult.png)  
+
+    위의 출력에서 ​​관찰하면 결과 집합에서 중복 요소가 제거된 것을 볼 수 있습니다.
+
+- ### D. Linq에서 Concat과 Union 연산자의 차이점은 무엇입니까?
+    Concat 연산자는 중복 요소를 제거하지 않고 두 시퀀스를 하나의 시퀀스로 연결하는 데 사용됩니다. 즉, 첫 번째 시퀀스의 요소와 두 번째 시퀀스의 요소를 차례로 반환합니다. 
+
+    반면에 Linq Union 연산자는 중복 요소를 제거하여 두 시퀀스를 하나의 시퀀스로 연결하는 데에도 사용됩니다. 
+
+    ```note
+    Concat 연산자로 작업하는 동안 시퀀스 중 하나라도 null이면 예외가 발생합니다.
+    ```
+
+    **예제2**  
+    다음 예에서 두 번째 시퀀스는 null이고 연결 연산자를 사용하여 연결 작업을 수행하는 동안 예외가 발생합니다.
+
+    ```cs
+    using System.Linq;
+    using System;
+    using System.Collections.Generic;
+    namespace LINQDemo
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                List<int> sequence1 = new List<int> { 1, 2, 3, 4 };
+                List<int> sequence2 = null;
+
+                var result = sequence1.Concat(sequence2);
+
+                foreach (var item in result)
+                {
+                    Console.WriteLine(item);
+                }
+
+                Console.ReadLine();
+            }
+        }
+    }
+    ```
+
+    이제 응용 프로그램을 실행하면 다음 예외가 발생합니다.
+
+    ![08_33_ConcatError.png](image/08/08_33_ConcatError.png)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
