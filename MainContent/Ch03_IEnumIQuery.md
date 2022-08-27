@@ -179,7 +179,7 @@ namespace LINQDemo
 
     이제 응용 프로그램을 실행하면 예상대로 데이터가 표시됩니다. 기억해야 할 점은 IQueryable 유형의 컬렉션을 반환하려면 먼저 위의 예에서와 같이 컬렉션에서 **AsQueryable()** 메서드를 호출해야 한다는 것입니다.
 
-## <font color='dodgerblue' size="6">3) C#에서 IEnumerable과 IQueryable의 차이점</font> 
+## <font color='dodgerblue' size="6">2) C#에서 IEnumerable과 IQueryable의 차이점</font> 
 IEnumerable 및 IQueryable은 데이터 컬렉션을 보유하는 데 사용되며 비즈니스 요구 사항에 따라 필터링, 정렬, 그룹화 등과 같은 데이터 조작 작업을 수행하는 데도 사용됩니다. 이 기사에서는 예제를 통해 IEnumerable과 IQueryable의 차이점을 살펴보겠습니다.
 
 ![03_09_IEnumIQueryDiff](image/03/03_09_IEnumIQueryDiff.png)  
@@ -215,92 +215,93 @@ GO
 필요한 테스트 데이터로 학생 테이블을 만든 다음 새 콘솔 응용 프로그램을 만듭니다. 콘솔 응용 프로그램을 만든 다음 ADO.NET 엔터티 데이터 모델 데이터베이스 접근 방식을 추가합니다.
 
 - ### A. IEnumerable 사용
-Program 클래스를 아래와 같이 수정해 보겠습니다.
-```cs
-using System;
-using System.Collections.Generic;
-using System.Linq;
+    Program 클래스를 아래와 같이 수정해 보자.
 
-namespace LINQDemo
-{
-    class Program
+    ```cs
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    namespace LINQDemo
     {
-        static void Main(string[] args)
+        class Program
         {
-            StudentDBContext dBContext = new StudentDBContext();
-            IEnumerable<Student> listStudents = dBContext.Students.Where(x => x.Gender == "Male");
-            listStudents = listStudents.Take(2);
-
-            foreach(var std in listStudents)
+            static void Main(string[] args)
             {
-                Console.WriteLine(std.FirstName + " " + std.LastName);
-            }
+                StudentDBContext dBContext = new StudentDBContext();
+                IEnumerable<Student> listStudents = dBContext.Students.Where(x => x.Gender == "Male");
+                listStudents = listStudents.Take(2);
 
-            Console.ReadKey();
-        } 
+                foreach(var std in listStudents)
+                {
+                    Console.WriteLine(std.FirstName + " " + std.LastName);
+                }
+
+                Console.ReadKey();
+            } 
+        }
     }
-}
-```
+    ```
 
-여기에서는 IEnumerable을 사용하여 LINQ 쿼리를 만듭니다. SQL 프로파일러를 사용하여 SQL 스크립트를 기록하십시오. 이제 응용 프로그램을 실행하면 다음 SQL 스크립트가 생성되고 실행되는 것을 볼 수 있습니다.
+    여기에서는 IEnumerable을 사용하여 LINQ 쿼리를 만듭니다. SQL 프로파일러를 사용하여 SQL 스크립트를 기록하십시오. 이제 응용 프로그램을 실행하면 다음 SQL 스크립트가 생성되고 실행되는 것을 볼 수 있습니다.
 
-```sql
-SELECT 
-    [Extent1].[ID] AS [ID], 
-    [Extent1].[FirstName] AS [FirstName], 
-    [Extent1].[LastName] AS [LastName], 
-    [Extent1].[Gender] AS [Gender]
+    ```sql
+    SELECT 
+        [Extent1].[ID] AS [ID], 
+        [Extent1].[FirstName] AS [FirstName], 
+        [Extent1].[LastName] AS [LastName], 
+        [Extent1].[Gender] AS [Gender]
     FROM [dbo].[Student] AS [Extent1]
     WHERE 'Male' = [Extent1].[Gender]
-```
+    ```
 
-위의 SQL Script와 같이 TOP 절을 사용하지 않습니다. 따라서 여기에서 SQL Server에서 메모리 내로 데이터를 가져온 다음 데이터를 필터링합니다.
+    위의 SQL Script를 보면 TOP 절이 사용되지 않는다. 따라서 SQL Server에서 메모리 내로 도든 데이터를 가져온 다음 그 이 후 필터링하는 것이다.
 
 - ### B. Queryable 사용
-IQueryable을 사용하기 위해 아래와 같이 Program 클래스를 수정해 보겠습니다.
+    IQueryable을 사용하기 위해 아래와 같이 Program 클래스를 수정해 보겠습니다.
 
-```cs
-using System;
-using System.Linq;
+    ```cs
+    using System;
+    using System.Linq;
 
-namespace LINQDemo
-{
-    class Program
+    namespace LINQDemo
     {
-        static void Main(string[] args)
+        class Program
         {
-            StudentDBContext dBContext = new StudentDBContext();
-            IQueryable<Student> listStudents = dBContext.Students
-                                .AsQueryable()
-                                .Where(x => x.Gender == "Male");
-            listStudents = listStudents.Take(2);
-
-            foreach(var std in listStudents)
+            static void Main(string[] args)
             {
-                Console.WriteLine(std.FirstName + " " + std.LastName);
-            }
+                StudentDBContext dBContext = new StudentDBContext();
+                IQueryable<Student> listStudents = dBContext.Students
+                                    .AsQueryable()
+                                    .Where(x => x.Gender == "Male");
+                listStudents = listStudents.Take(2);
 
-            Console.ReadKey();
-        } 
+                foreach(var std in listStudents)
+                {
+                    Console.WriteLine(std.FirstName + " " + std.LastName);
+                }
+
+                Console.ReadKey();
+            } 
+        }
     }
-}
-```
+    ```
 
-응용 프로그램을 실행하면 다음 SQL 스크립트가 생성됩니다.
+    응용 프로그램을 실행하면 다음 SQL 스크립트가 생성됩니다.
 
-```sql
-SELECT TOP (2) 
-    [Extent1].[ID] AS [ID], 
-    [Extent1].[FirstName] AS [FirstName], 
-    [Extent1].[LastName] AS [LastName], 
-    [Extent1].[Gender] AS [Gender]
-    FROM [dbo].[Student] AS [Extent1]
-    WHERE 'Male' = [Extent1].[Gender]
-```
+    ```sql
+    SELECT TOP (2) 
+        [Extent1].[ID] AS [ID], 
+        [Extent1].[FirstName] AS [FirstName], 
+        [Extent1].[LastName] AS [LastName], 
+        [Extent1].[Gender] AS [Gender]
+        FROM [dbo].[Student] AS [Extent1]
+        WHERE 'Male' = [Extent1].[Gender]
+    ```
 
-보시다시피 SQL 스크립트에 TOP 절을 포함하고 데이터베이스에서 데이터를 가져옵니다. 이를 염두에 두고 IEnumerable과 IQueryable의 차이점에 대해 논의해 보겠습니다.
+    보시다시피 SQL 스크립트에 TOP 절을 포함하여 데이터를 가져온다. 이를 염두에 두고 IEnumerable과 IQueryable의 차이점에 대해 논의해 보겠다.
 
-## <font color='dodgerblue' size="6">4) 차이점 정리</font> 
+## <font color='dodgerblue' size="6">3) 차이점 정리</font> 
 C#에서 IEnumerable:
 
 1. IEnumerable은 System.Collections 네임스페이스에서 사용할 수 있는 인터페이스입니다.
