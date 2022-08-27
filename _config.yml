@@ -1,7 +1,7 @@
-title : "Linq 강좌"
+title : "Linq 사용법"
 name  : "Sungchool Park"
 lang: ko
-description: "Linq 매뉴얼 Using C#"
+description: "Linq 사용법 Using C#"
 
 url     : "https://grimhang.github.io"
 baseurl : "/LinqPractice"
