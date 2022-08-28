@@ -2,7 +2,7 @@
 sort: 6
 ---
 
-# LINQ 연산자 : Select와 SelectMany
+# 선택 연산자 : Select와 SelectMany 
 
 
 ## <font color='dodgerblue' size="6">1) Select 프로젝션 연산자</font> 

@@ -2,7 +2,7 @@
 sort: 7
 ---
 
-# LINQ 연산자 : Where와 ofType 필터링
+# 필터 연산자 : Where, ofType 
 
 ## <font color='dodgerblue' size="6">1). Where 필터링 연산자</font>    
 이번에는 예제와 함께 LINQ의 Where Filtering Operators에 대해 설명한다.
