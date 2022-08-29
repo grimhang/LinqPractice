@@ -8,7 +8,10 @@
 3. C#의 IEnumberable 및 IQueryable
 4. LINQ 확장 메쏘드
 5. LINQ 연산자
-6. LINQ 연산자 : Select와 SelectMany
-7. LINQ 연산자 : Where와 ofType 필터링
-8. LINQ 연산자 : 집합 관련(Distinct, Except, Intersect, Union)
+6. 선택 연산자 : Select와 SelectMany
+7. 필터 연산자 : Where, ofType
+8. 집합 연산자 : Distinct, Except, Intersect, Union, Concat
+9. 정렬 연산자 : OrderBy, OrderByDescending, ThenBy, ThenByDescending, Reverse
+10. 집계 함수 : Sum, Max, Min, Average, Count, Aggregate
+
 
