@@ -6,6 +6,8 @@ description: "Linq 사용법 Using C#"
 url     : "https://grimhang.github.io"
 baseurl : "/LinqPractice"
 
+layout: default
+comments: true
 
 #theme: jekyll-rtd-theme
 remote_theme: rundocs/jekyll-rtd-theme
@@ -43,5 +45,3 @@ exclude:
 # other options
 ---
 
-layout: default
-comments: true
