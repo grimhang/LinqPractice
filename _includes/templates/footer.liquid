@@ -20,9 +20,7 @@
     {%- endif -%}
 {%- endif -%}
 
-<div>박성출31</div>
-
-<div>
+{% if page.comments %} 
     <div id="disqus_thread"></div>
     <script>   
         var disqus_config = function () {
@@ -30,7 +28,7 @@
         this.page.identifier = "{{ page.url }}";
         };
         
-        (function() { // DON'T EDIT BELOW THIS LINE
+        (function() {
         var d = document, s = d.createElement('script');
         s.src = 'https://howtouselinq.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
@@ -38,9 +36,7 @@
         })();
     </script>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-<div>박성출31</div>
-
+{% endif %}
 
 <hr>
 
