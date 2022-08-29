@@ -61,7 +61,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
 
     결과  
-    ![10_01_SumExam1Result.png](image/10/10_01_SumExam1Result.png)  
+    <span style='background-color:#fff5b1'>Sum = 550</span>
 
     참고: Linq 쿼리 구문에는 sum이라는 연산자가 없습니다. 따라서 여기서는 혼합 구문을 사용해야 합니다.
 
@@ -95,7 +95,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     }
     ```
 
-    ![10_02_SumExam2Result.png](image/10/10_02_SumExam2Result.png)  
+    <span style='background-color:#fff5b1'>Sum = 400</span>
 
     **예제 3: 람다 조건식 파라메터가 있는 Linq Sum 메서드**  
     where 메서드를 사용하여 데이터를 필터링하는 대신 조건식을 사용하여 데이터를 필터링하는 논리를 작성하는 Sum 메서드의 다른 오버로드된 버전을 사용할 수도 있다.
@@ -126,7 +126,8 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
         }
     }
     ```
-    ![10_03_SumExam3Result.png](image/10/10_03_SumExam3Result.png)  
+    
+    <span style='background-color:#fff5b1'>Sum = 400</span>
 
 <br/>
 
@@ -197,7 +198,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
 
     결과  
-    ![10_04_SumExam4Result.png](image/10/10_04_SumExam4Result.png)  
+    <span style='background-color:#fff5b1'>Sum Of Salary = 266000</span>
 
     **예제5:**  
     다음 예에서는 IT 부서에 속한 모든 직원의 급여 합계를 계산합니다.
@@ -229,7 +230,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     }
     ```
     결과  
-    ![10_05_SumExam5Result.png](image/10/10_05_SumExam5Result.png) 
+    <span style='background-color:#fff5b1'>IT Department Total Salary = 120000</span>
 
      **예제6:**  
     사용자 정의 조건식을 사용하여 이전 예제를 다시 작성하였다.
@@ -260,7 +261,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     }
     ```
     결과  
-    ![10_06_SumExam6Result.png](image/10/10_06_SumExam6Result.png) 
+    <span style='background-color:#fff5b1'>IT Department Total Salary = 120000</span>
 
 <br/>
 
@@ -441,8 +442,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
     
     결과  
-    ![10_07_MaxExam4Result.png](image/10/10_07_MaxExam4Result.png)  
-
+    <span style='background-color:#fff5b1'>Highest Salary = 50000</span>
 
     <br/>
     **예제5:**  
@@ -476,8 +476,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     }
     ```
     결과  
-    ![10_08_MaxExam5Result.png](image/10/10_08_MaxExam5Result.png) 
-
+    <span style='background-color:#fff5b1'>It Department Highest Salary = 35000</span>
 
     <br/>
      **예제6:**  
@@ -1091,7 +1090,9 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
     
     결과  
-    ![10_19_CountExam4Result.png](image/10/10_19_CountExam4Result.png)  
+    <span style='background-color:#fff5b1'>Total No of Employees of IT Department = 5</span>
+
+<br/>    
 
 ## <font color='dodgerblue' size="6">6) Aggregate 함수</font>     
 
@@ -1146,7 +1147,8 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
 
     결과  
-    ![10_21_AggWithoutFuntinon.png](image/10/10_21_AggWithoutFuntinon.png)  
+ 
+    <span style='background-color:#fff5b1'>C#.NET, MVC, WCF, SQL, LINQ, ASP.NET</span>
 
     이제 Linq Aggregate 메서드를 사용하여 동일한 출력을 얻는 방법을 살펴보겠습니다.
 
@@ -1174,7 +1176,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
 
     결과  
-    ![10_22_AggWithFuntinon.png](image/10/10_22_AggWithFuntinon.png)  
+    <span style='background-color:#fff5b1'>C#.NET, MVC, WCF, SQL, LINQ, ASP.NET</span>
     
     람다 식 (s1, s2) => s1 + ", " + s2 는 s1 = s1 + ", " + s2 와 같은 의미이다. 여기서 s1은 컬렉션에 있는 각 항목에 대해 누적값을 의미하여 결과적으로 Aggregate 함수는 쉼표로 구분된 문자열을 반환한다.  
     
@@ -1370,7 +1372,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
 
     결과:  
-    Employee Names : Preety, Priyanka, James, Hina, Anurag
+    <span style='background-color:#fff5b1'>Employee Names : Preety, Priyanka, James, Hina, Anurag</span>
 
     위의 예에서 Aggregate 메소드의 첫 번째 매개변수는 모든 직원 이름과 함께 누적될 " Employee Names: " 문자열입니다. 람다 식의 쉼표는 두 번째 매개변수로 전달됩니다.
 
@@ -1403,7 +1405,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
     
     결과:  
-    Employee Names : Preety, Priyanka, James, Hina, Anurag
+    <span style='background-color:#fff5b1'>Employee Names : Preety, Priyanka, James, Hina, Anurag</span>  
 
     이번에는 이전 예제처럼 문자열 결과에서 LastIndex를 구하고 Remove로 마지막 쉼표를 제거하는 단계를 추가하지 않았다. 대신 세번째 파라메터를 결과 선택기로 지정하여 람다 식(예: employeeNames => employeeNames.Substring(0, employeeNames.Length – 1)) 을 넣었다. 그리하여 뒤쪽의 콤마를 제거하였다.
 
