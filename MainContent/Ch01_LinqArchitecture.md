@@ -90,23 +90,3 @@ LINQ 사용의 단점은 다음과 같습니다.
 
 다음 기사에서는 C#.NET을 사용하여 LINQ 쿼리를 작성 하는 다양한 방법에 대해 설명하겠습니다 . 여기, 이 기사에서는 Linq 아키텍처를 설명하려고 하며 이 Linq 아키텍처 기사를 즐기시기 바랍니다.
 
-<div>박성출22</div>
-
-
-<div id="disqus_thread"></div>
-<script>   
-    var disqus_config = function () {
-    this.page.url = "https://grimhang.github.io{{ page.url }}";
-    this.page.identifier = "{{ page.url }}";
-    };
-    
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://howtouselinq.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-<div>박성출22</div>
