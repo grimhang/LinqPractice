@@ -87,3 +87,23 @@ LINQ 사용의 단점은 다음과 같습니다.
 4. 쿼리를 약간 변경하면 응용 프로그램을 다시 컴파일하고 dll을 서버에 다시 배포해야 합니다.
 
 다음 기사에서는 C#.NET을 사용하여 LINQ 쿼리를 작성 하는 다양한 방법에 대해 설명하겠습니다 . 여기, 이 기사에서는 Linq 아키텍처를 설명하려고 하며 이 Linq 아키텍처 기사를 즐기시기 바랍니다.
+
+<div id="disqus_thread"></div>
+<script>
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+    
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://linq-sayongbeob.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
