@@ -36,4 +36,9 @@ exclude:
   - webpack.config.js
   - jekyll-rtd-theme.gemspec
 
-disqus_shortname: 'linq-sayongbeob'
+#disqus_shortname: 'linq-sayongbeob'
+---
+layout: default
+comments: true
+# other options
+---
