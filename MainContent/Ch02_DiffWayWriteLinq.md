@@ -1,5 +1,6 @@
 ---
 sort: 2
+comments: true
 ---
 
 # Linq 쿼리를 작성하는 다양한 방법

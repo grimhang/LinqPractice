@@ -1,5 +1,6 @@
 ---
 sort: 6
+comments: true
 ---
 
 # 선택 연산자 : Select와 SelectMany 

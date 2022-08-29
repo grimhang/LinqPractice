@@ -1,6 +1,5 @@
 ---
 sort: 1
-layout: default
 comments: true
 ---
 

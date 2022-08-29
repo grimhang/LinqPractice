@@ -1,5 +1,6 @@
 ---
 sort: 4
+comments: true
 ---
 
 # Linq 확장 메쏘드

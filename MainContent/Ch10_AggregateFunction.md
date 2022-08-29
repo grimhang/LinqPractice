@@ -1,5 +1,6 @@
 ---
 sort: 10
+comments: true
 ---
 
 # 집계 함수 : Sum, Max, Min, Average, Count, Aggregate

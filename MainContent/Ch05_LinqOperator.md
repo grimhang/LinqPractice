@@ -1,5 +1,6 @@
 ---
 sort: 5
+comments: true
 ---
 
 # LINQ 연산자들

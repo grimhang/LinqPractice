@@ -1,5 +1,6 @@
 ---
 sort: 9
+comments: true
 ---
 
 # 정렬 연산자 : OrderBy, OrderByDescending, ThenBy, ThenByDescending, Reverse 

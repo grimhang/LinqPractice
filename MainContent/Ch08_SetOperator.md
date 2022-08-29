@@ -1,5 +1,6 @@
 ---
 sort: 8
+comments: true
 ---
 
 # 집합 연산자 : Distinct, Except, Intersect, Union, Concat 

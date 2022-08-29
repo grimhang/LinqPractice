@@ -1,5 +1,6 @@
 ---
 sort: 3
+comments: true
 ---
 
 # C#의 IEnumberable 및 IQueryable
