@@ -11,7 +11,7 @@
 6. 선택 연산자 : Select와 SelectMany
 7. 필터 연산자 : Where, ofType
 8. 집합 연산자 : Distinct, Except, Intersect, Union, Concat
-9. 정렬 연산자 : OrderBy, OrderByDescending, ThenBy, ThenByDescending, Reverse
+9. 정렬 연산자 : OrderBy, ThenBy, Reverse
 10. 집계 함수 : Sum, Max, Min, Average, Count, Aggregate
 
 

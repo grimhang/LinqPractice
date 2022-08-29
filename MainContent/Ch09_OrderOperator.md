@@ -3,7 +3,7 @@ sort: 9
 comments: true
 ---
 
-# 정렬 연산자 : OrderBy, OrderByDescending, ThenBy, ThenByDescending, Reverse 
+# 정렬 연산자 : OrderBy, ThenBy, Reverse 
 
 간단히 말해서 Ordering은 특정 순서로 데이터를 정렬하는 프로세스. 데이터 또는 출력을 변경하는 것이 아니라 데이터를 특정 순서, 즉 오름차순 또는 내림차순으로 정렬.
 
