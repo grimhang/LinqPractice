@@ -43,3 +43,5 @@ exclude:
 # other options
 ---
 
+layout: default
+comments: true
