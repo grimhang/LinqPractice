@@ -669,14 +669,14 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
             static void Main(string[] args)
             {
                 //Using Method Syntax
-                var MSHighestSalary = Employee.GetAllEmployees()
+                var MSLowestSalary = Employee.GetAllEmployees()
                                 .Min(emp => emp.Salary);
 
                 //Using Query Syntax
-                var QSHighestSalary = (from emp in Employee.GetAllEmployees()
+                var QSLowestSalary = (from emp in Employee.GetAllEmployees()
                                     select emp).Min(e => e.Salary);
 
-                Console.WriteLine("Highest Salary = " + QSHighestSalary);
+                Console.WriteLine("Lowest Salary = " + QSLowestSalary);
 
                 Console.ReadKey();
             }
@@ -685,8 +685,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
     
     결과  
-    ![10_09_MinExam4Result.png](image/10/10_09_MinExam4Result.png)  
-
+    <span style='background-color:#fff5b1'>Lowest Salary = 10000</span>
 
     <br/>
     **예제5:**  
@@ -720,7 +719,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     }
     ```
     결과  
-    ![10_08_MinExam5Result.png](image/10/10_10_MinExam5Result.png) 
+    <span style='background-color:#fff5b1'>It Department Highest Salary = 10000</span>
 
 
 ## <font color='dodgerblue' size="6">4) Average 함수</font>     
@@ -759,7 +758,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
 
     결과  
-    ![10_11_AvgExam1Result.png](image/10/10_11_AvgExam1Result.png)  
+    <span style='background-color:#fff5b1'>Average Value = 55</span>
 
     참고: Linq 쿼리 구문에는 Average라는 연산자가 없기 때문에 혼합 구문을 사용해야 한다.
 
@@ -866,8 +865,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     }
     ```
     결과  
-    ![10_13_AvgExam3Result.png](image/10/10_13_AvgExam3Result.png)  
-    
+    <span style='background-color:#fff5b1'>Average Salary = 26600</span>
 
     <br/>
     **예제4:**
@@ -901,7 +899,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
     
     결과  
-    ![10_14_AvgExam4Result.png](image/10/10_14_AvgExam4Result.png)  
+    <span style='background-color:#fff5b1'>IT Department Average Salary = 24000</span>
 
 
 ## <font color='dodgerblue' size="6">5) Count 함수</font>     
@@ -948,7 +946,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     ```
 
     결과  
-    ![10_16_CountExam1Result.png](image/10/10_16_CountExam1Result.png)  
+    <span style='background-color:#fff5b1'>No of Elements = 10</span>
 
     참고: Linq 쿼리 구문에는 Count라는 연산자가 없기 때문에 혼합 구문을 사용해야 한다.
 
@@ -983,9 +981,8 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     }
     ```
 
-    결과  
-    ![10_17_CountExam2Result.png](image/10/10_17_CountExam2Result.png)  
-    
+    결과      
+    <span style='background-color:#fff5b1'>No of Elements = 6</span>
     
 
 <br/>
@@ -1055,8 +1052,7 @@ Linq 집계 함수는 여러 행의 값을 입력으로 그룹화한 다음 출�
     }
     ```
     결과  
-    ![10_18_CountExam3Result.png](image/10/10_18_CountExam3Result.png)  
-    
+    <span style='background-color:#fff5b1'>Total No of Employees = 10</span>
 
     <br/>
     **예제4:**
