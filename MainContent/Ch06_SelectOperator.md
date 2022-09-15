@@ -421,15 +421,15 @@ comments: true
     }
     ```
 
-## <font color='dodgerblue' size="6">2) C# SelectMany 프로젝션 연산자(예제 포함)</font>
-예제와 함께 C#의 LINQ SelectMany에 대해 논의한다. C#의 Select 연산자에 대해 몇 가지 예와 함께 논의한 이전 기사를 읽어보십시오 . LINQ SelectMany 메서드는 프로젝션 범주 연산자에 속합니다. 이 기사의 일부로 다음 포인터에 대해 자세히 논의할 것입니다.
+## <font color='dodgerblue' size="6">2) SelectMany 프로젝션 연산자</font>
+예제와 함께 논의한다. C#의 Select 연산자에 대해 몇 가지 예와 함께 논의한 이전 기사를 읽어보십시오 . LINQ SelectMany 메서드는 프로젝션 범주 연산자에 속합니다. 이 기사의 일부로 다음 포인터에 대해 자세히 논의할 것입니다.
 
 1. LINQ SelectMany란 무엇입니까?
 2. C#에서 쿼리 및 메서드 구문을 모두 사용하는 예.
 
-- ### A. LINQ SelectMany란 무엇입니까?
+- ### A. SelectMany란?
 
-    LINQ의 SelectMany는 시퀀스의 각 요소를 IEnumerable<T> 에 투영 한 다음 결과 시퀀스를 하나의 시퀀스로 병합하는 데 사용됩니다. 즉, SelectMany 연산자는 결과 시퀀스의 레코드를 결합한 다음 하나의 결과로 변환합니다. 이것이 현재 명확하지 않은 경우 실제에서 볼 수 있으므로 걱정하지 마십시오.
+    LINQ의 SelectMany는 컬렉션의 각 요소를 IEnumerable&lt;T> 에 투영 한 다음 컬렉션을 단일 결과로 병합하는 데 사용됩니다. 즉, SelectMany 연산자는 결과 시퀀스의 레코드를 결합한 다음 하나의 결과로 변환합니다. 이것이 현재 명확하지 않은 경우 실제에서 볼 수 있으므로 걱정하지 마십시오.
 
     ```cs
     using System;
@@ -456,7 +456,7 @@ comments: true
     }
     ```
 
-    위의 코드에서 SelectMany 메서드가 IEnumerable<char> 를 반환하는 것을 볼 수 있습니다. 이는 SelectMany 메서드가 시퀀스의 모든 요소를 ​​반환하기 때문입니다. 여기서 List는 시퀀스이며 문자열이 포함된다. 여기 List에는 두 개의 문자열이 있다. 따라서 SelectMany 메서드는 위의 두 문자열에서 모든 문자를 가져온 다음 하나의 시퀀스(예: IEnumerable<char> )로 변환합니다 .
+    위의 코드에서 SelectMany 메서드가 IEnumerable&lt;char> 를 반환하는 것을 볼 수 있습니다. 이는 SelectMany 메서드가 시퀀스의 모든 요소를 ​​반환하기 때문입니다. 여기서 List는 시퀀스이며 문자열이 포함된다. 여기 List에는 두 개의 문자열이 있다. 따라서 SelectMany 메서드는 위의 두 문자열에서 모든 문자를 가져온 다음 하나의 시퀀스(예: IEnumerable&lt;char> )로 변환합니다 .
 
     따라서 위의 프로그램을 실행하면 다음과 같은 결과가 나옵니다.
 
