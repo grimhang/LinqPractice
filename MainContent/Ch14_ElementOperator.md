@@ -14,13 +14,13 @@ Linq 컬렉션에서 단일 데이터만 선택하는 메서드들을 단일선�
 
 <br>
 
-## <font color='dodgerblue' size="6">1) ElementAt, ElementAtOrDefault</font>   
-- ### A. ElementAt, ElementAtOrDefault 설명
-    Linq 컬렉션에서 인덱스 번호를 사용하여 1개의 데이터를 추출.  
+## <font color='dodgerblue' size="6">1) ElementAt와 ElementAtOrDefault</font>   
+- ### A. ElementAt, ElementAtOrDefault 란?
+    Linq 컬렉션에서 인덱스 번호로 1개의 데이터를 추출.  
     
     ![14_01_ElementAt.png](image/14/14_01_ElementAt.png)  
     
-    매개변수는 1개이며 인덱스 번호. 0부터 시작.
+    위 2개 메서드 모두 매개변수는 1개이며 인덱스 번호. 0부터 시작.
 
     ElementAt은 빈 컬렉션이거나 인덱스번호가 범위를 벗어나면 ArgumentOutOfRangeException 예외를 발생시키는데 ElementAtOrDefault을 사용하면 예외대신 해당 데이터타입의 기본값 반환.
 
@@ -32,7 +32,7 @@ Linq 컬렉션에서 단일 데이터만 선택하는 메서드들을 단일선�
 
     <br>
    - **예제1: ElementAt**  
-        인덱스 위치 2번째에 있는 데이터 선택     
+        인덱스 번호 3에 있는 데이터 선택. 
 
         ```cs
         using System.Linq;
@@ -58,11 +58,12 @@ Linq 컬렉션에서 단일 데이터만 선택하는 메서드들을 단일선�
         <div style='background-color:#fff5b1;border:1px solid black;width:200px;font-size:13px;padding:0.5em'>
         7
         </div>    
-    
+        0부터 시작하니까 4번째 데이터인 7 리턴.     
   
-    <br>
+        <br>
+
     - **예제2: ElementAtOrDefault**  
-        ElementAt메서드는 인덱스 범위를 벗어나거나 빈 컬렉션의 경우 ArgumentOutOfRangeException 예외를 피하기 위해 ElementAtOrDefault를 사용. 
+        ElementAt메서드는 인덱스 범위를 벗어나거나 또는 빈 컬렉션일 경우 ArgumentOutOfRangeException 예외가 발생하는데 이를 피하기 위해 ElementAtOrDefault를 사용. 
         
         ```cs
         using System.Linq;
@@ -91,9 +92,10 @@ Linq 컬렉션에서 단일 데이터만 선택하는 메서드들을 단일선�
         </div>  
         인덱스번호 12은 컬렉션의 범위를 벗어나기 때문에 int 컬렉션의 기본값인 0을 반환.
 
-    <br>
+        <br>
+
     - **예제3: Query 구문**  
-        Query 구문에는 메서드가 존재하지 않기 때문에 혼합 구문을 사용해야 한다.
+        Query 구문에는 해당 기능이 존재하지 않기 때문에 혼합 구문을 사용해야 한다.
         ```cs
         using System.Linq;
         using System;
@@ -111,7 +113,7 @@ Linq 컬렉션에서 단일 데이터만 선택하는 메서드들을 단일선�
                                         select num).ElementAt(1);
 
                     int QuerySyntaxOrDefault = (from num in numbers
-                                        select num).ElementAtOrDefault(1);
+                                                select num).ElementAtOrDefault(1);
 
                     Console.WriteLine(QuerySyntax);
                     Console.WriteLine(QuerySyntaxOrDefault);
@@ -130,7 +132,7 @@ Linq 컬렉션에서 단일 데이터만 선택하는 메서드들을 단일선�
 - ### C. 컬렉션의 item속성과 비교
     모든 컬렉션에는 item속성의 첨자를 이용하여 단일 데이터를 선택할수 있지만 역시나 범위를 벗어나면  예외가 발생한다. 
     
-    ElementAt과 첨자방식 모두 기능이 동일하지만 차이점이라면 ElementAt은 System.Linq 네임스페이스에 있다는 것이다.
+    ElementAt과 첨자방식 모두 기능이 동일하다. 차이점이라면 첨자방식은 System.Collections.Generic의 기본 기능이고 ElementAt은 System.Linq 네임스페이스에 있다는 것이다.
 
     ```cs
     using System.Linq;
@@ -191,10 +193,10 @@ Linq 컬렉션에서 단일 데이터만 선택하는 메서드들을 단일선�
                 static void Main(string[] args)
                 {
                     List<int> numbers = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-                    int MethodSyntax1 = numbers.First();
+                    int MethodSyntax1 = numbers.First();                        //매개변수 없는 First
                     Console.WriteLine(MethodSyntax1);
                     
-                    int MethodSyntax2 = numbers.First(num => num % 2 == 0);
+                    int MethodSyntax2 = numbers.First(num => num % 3 == 0);     //조건식이 매개변수 있는 First
                     Console.WriteLine(MethodSyntax2);
 
                     Console.ReadKey();
@@ -205,10 +207,10 @@ Linq 컬렉션에서 단일 데이터만 선택하는 메서드들을 단일선�
 
         <div style='background-color:#fff5b1;border:1px solid black;width:200px;font-size:13px;padding:0.5em'>
         1<br>
-        2<br>
+        3<br>
         </div>  
         매개변수 없는 기본 First메서드는 컬렉션의 첫번째인 1을 반환하고  
-        조건식이 매개변수인 두번째 First는 2로 딱 나눠지는 짝수중에 첫번째 결과인 2를 리턴함을 알수 있다.
+        조건식이 매개변수인 두번째 First는 3로 딱 나눠지는 숫자 중 첫번째 결과인 3을 리턴한다.
 
     <br>
    - **예제2: FirstOrDefault**  
